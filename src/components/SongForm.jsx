@@ -1,9 +1,10 @@
 'use client'
-import { findSongByUrl, emptySong } from "@/services/mock-songservice";
+import { findSongByUrl, emptySong, updateSong, addSong } from "@/services/mock-songservice";
 import { useState, useEffect } from "react";
 
-const SongForm = ({ songUrl, saveSong }) => {
+const SongForm = ({ songUrl }) => {
     const editing = !!songUrl   // :D
+    const saveSong = editing ? updateSong : addSong
     
     const [song, setSong] = useState(emptySong)
     if (editing) {
@@ -20,15 +21,16 @@ const SongForm = ({ songUrl, saveSong }) => {
     }
 
     const update = (field) => (({ target }) => setSong({...song, [field]:target.value}))
-    console.log(`Song title: ${song.title}`)
+
+    const title = editing
+        ? `Laulun ${song.title} muokkaus`
+        : "Uusi laulu"
     return (
         <div>
-            <h1>Songform</h1>
-            <p>Url: {songUrl}</p>
-            <p>title: {song.title}</p>
             <form onSubmit={handleSubmit}>
+                <button type='submit'>Tallenna</button>
                 <div>
-                    Laulun nimi:
+                    <p>Laulun nimi:</p>
                     <input
                         type='text'
                         value={song.title}
@@ -37,7 +39,7 @@ const SongForm = ({ songUrl, saveSong }) => {
                     />
                 </div>
                 <div>
-                    Sävel:
+                    <p>Sävel:</p>
                     <input
                         type='text'
                         value={song.melody}
@@ -46,7 +48,7 @@ const SongForm = ({ songUrl, saveSong }) => {
                     />
                 </div>
                 <div>
-                    Numero:
+                    <p>Numero:</p>
                     <input
                         type='text'
                         value={song.number}
@@ -55,16 +57,7 @@ const SongForm = ({ songUrl, saveSong }) => {
                     />
                 </div>
                 <div>
-                    Numero:
-                    <input
-                        type='text'
-                        value={song.number}
-                        name='Number'
-                        onChange={update("number")}
-                    />
-                </div>
-                <div>
-                    Esittäjä (?):
+                    <p>Esittäjä (?):</p>
                     <input
                         type='text'
                         value={song.authorinfo}
@@ -72,16 +65,18 @@ const SongForm = ({ songUrl, saveSong }) => {
                         onChange={update("authorinfo")}
                     />
                 </div>
+                <div>
+                    <p>Sanat:</p>
+                    <textarea
+                        type='text'
+                        value={song.lyrics}
+                        name='Lyrics'
+                        cols='80'
+                        rows='40'
+                        onChange={update("lyrics")}
+                    />
+                </div>
             </form>
-            <div>
-                Sanat:
-                <textarea
-                    type='text'
-                    value={song.lyrics}
-                    name='Lyrics'
-                    onChange={update("lyrics")}
-                />
-            </div>
         </div>
     )
 }

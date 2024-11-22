@@ -1,9 +1,26 @@
+import { getAllSongs } from "@/services/mock-songservice"
 import Link from "next/link"
+import { redirect } from "next/navigation"
 
-export default function Admin() {
+export default async function Admin() {
+    const newSong = async () => {
+        'use server'
+        redirect('/admin/new')
+    }
+
     return (
         <div className="admin">
-            <Link href="/admin/new">Uusi laulu</Link>
+            <button onClick={newSong}>Uusi laulu</button>
+            <div className="songEditList">
+                <p>Muokkaa lauluja:</p>
+                <ul>
+                    {getAllSongs().map((song, ind) => (
+                        <li key={ind}>
+                            <Link href={`/admin/edit/${song.url}`}>{song.title}</Link>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
     )
 }

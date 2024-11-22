@@ -1,4 +1,4 @@
-const songs = [
+let songs = [
     {
         "title": "Sahtilaulu",
         "url": "sahtilaulu",
@@ -96,6 +96,18 @@ export function formatSongName(name) {
         .replace(/_{2,}/g, '_')
 
     return res
+}
+
+export function addSong(song) {
+    songs.concat({...song, "url": formatSongName(song.title)})
+    console.log(song)
+}
+
+export function updateSong(song) {
+    console.log(song)
+    songs = songs
+        .filter(s => s.url != song.url)
+        .concat(song)
 }
 
 export const emptySong = {

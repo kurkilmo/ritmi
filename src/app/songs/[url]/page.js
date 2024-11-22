@@ -6,7 +6,7 @@ export default async function Song({ params }) {
 
     return (
         <div>
-            <h1>{song.title}</h1>
+            <h1>{song.number}. {song.title}</h1>
             <h2>Säv: {song.melody}</h2>
             <h2>{song.authorinfo}</h2>
             <div className="lyrics">
