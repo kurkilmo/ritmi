@@ -1,8 +1,8 @@
-import { find_by_url } from "../../../services/mock-songservice.js"
+import { findSongByUrl } from "../../../services/mock-songservice.js"
 
 export default async function Song({ params }) {
     const url = (await params).url
-    const song = find_by_url(url)
+    const song = findSongByUrl(url)
 
     return (
         <div>
@@ -10,8 +10,8 @@ export default async function Song({ params }) {
             <h2>Säv: {song.melody}</h2>
             <h2>{song.authorinfo}</h2>
             <div className="lyrics">
-                {song.lyrics.split("\n\n").map(verse => (
-                    <p className="verse">{verse}</p>
+                {song.lyrics.split("\n\n").map((verse, ind) => (
+                    <p key={ind} className="verse">{verse}</p>
                 ))}
             </div>
         </div>
