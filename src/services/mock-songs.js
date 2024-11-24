@@ -77,7 +77,6 @@ const songSort = (a, b) => {
 
 export function getAllSongs() {
     songs.sort(songSort)
-    console.log(songs)
     return songs
 }
 
@@ -107,15 +106,10 @@ export function addSong(song) {
         "url": formatSongName(song.title),
         "number": number
     })
-    console.log("uus biisi:")
-    console.log(song)
-    console.log(songs)
 }
 
 //TODO: tarkistus oliko laulua?
 export function updateSong(song) {
-    console.log("Muokattu biisi:")
-    console.log(song)
     songs = songs
         .filter(s => s.url != song.url)
         .concat(song)
