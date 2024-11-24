@@ -6,7 +6,7 @@ const emptySong = {
     "url": "",
     "number": "",
     "melody": "",
-    "authorinfo": "",
+    "info": "",
     "lyrics": ""
 }
 
@@ -66,12 +66,12 @@ const SongForm = ({ oldSong }) => {
                     />
                 </div>
                 <div>
-                    <p>Esittäjä (?):</p>
+                    <p>Info:</p>
                     <input
                         type='text'
-                        value={song.authorinfo}
-                        name='Author info'
-                        onChange={update("authorinfo")}
+                        value={song.info}
+                        name='Info'
+                        onChange={update("info")}
                     />
                 </div>
                 <div>

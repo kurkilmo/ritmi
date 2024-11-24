@@ -8,13 +8,15 @@ export default async function Admin() {
         redirect('/admin/new')
     }
 
+    const songs = await getAllSongs()
+
     return (
         <div className="admin">
             <button onClick={newSong}>Uusi laulu</button>
             <div className="songEditList">
                 <p>Muokkaa lauluja:</p>
                 <ul>
-                    {getAllSongs().map((song, ind) => (
+                    {songs.map((song, ind) => (
                         <li key={ind}>
                             <Link href={`/admin/edit/${song.url}`}>{song.title}</Link>
                         </li>

@@ -4,7 +4,7 @@ import { notFound } from "next/navigation"
 
 export default async function Edit({ params }) {
     const url = (await params).url
-    const song = findSongByUrl(url)
+    const song = await findSongByUrl(url)
     if (!song) {
         return notFound()
     }

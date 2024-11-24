@@ -29,7 +29,7 @@ export default function Home() {
             </div>
       <ul className="songList">
         {filteredSongs.map((song, ind) =>
-          <li key={song.number}>
+          <li key={ind}>
             <Link href={`/songs/${song.url}`} key={ind}>
               {song.title}
             </Link>

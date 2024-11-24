@@ -3,14 +3,23 @@ import { findSongByUrl } from "@/services/songservice.js"
 
 export default async function Song({ params }) {
     const url = (await params).url
-    const song = findSongByUrl(url)
-    if (!song) return notFound()
+    const song = await findSongByUrl(url)
+    if (!song) { return notFound() }
+
+    const title = (song.number
+        ? `${song.number}. `
+        : '')
+        + song.title
+    
+    const melody = song.melody
+        ? `Sävel: ${song.melody}`
+        : ''
 
     return (
         <div>
-            <h1>{song.number}. {song.title}</h1>
-            <h2>Säv: {song.melody}</h2>
-            <h2>{song.authorinfo}</h2>
+            <h1>{title}</h1>
+            <h2>{melody}</h2>
+            <h2>{song.info}</h2>
             <div className="lyrics">
                 {song.lyrics.split("\n\n").map((verse, ind) => (
                     <p key={ind} className="verse">{verse}</p>

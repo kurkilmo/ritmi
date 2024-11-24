@@ -4,7 +4,7 @@ let songs = [
         "url": "sahtilaulu",
         "number": 1,
         "melody": "Son ar chistr",
-        "authorinfo": "",
+        "info": "",
         "lyrics":
 `:,: Oi ihmislapset - te kuunnelkaa,
 kun teille lapset soittaa maan. :,:
@@ -35,7 +35,7 @@ Wir trinken zusammen, nicht allein :,:`
         "url": "ken_ompi_fuksi",
         "number": 'n',
         "melody": "",
-        "authorinfo": "",
+        "info": "",
         "lyrics":
 `:,: Ken ompi fuksi n
 ylös nouskohon.
@@ -49,7 +49,7 @@ Juo herran tähden pois. :,:`
         "url": "suhteellisen_rivakka_turkulainen_juomalaulu",
         "number": 3,
         "melody": "Trad.",
-        "authorinfo": "Turku",
+        "info": "Turku",
         "lyrics": `Nyt!`
     }
 ]
