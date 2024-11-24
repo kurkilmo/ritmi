@@ -77,6 +77,7 @@ const songSort = (a, b) => {
 
 export function getAllSongs() {
     songs.sort(songSort)
+    console.log(songs)
     return songs
 }
 
@@ -98,23 +99,30 @@ export function formatSongName(name) {
     return res
 }
 
+//TODO: tarkistus onko olemassa jo
 export function addSong(song) {
-    songs.concat({...song, "url": formatSongName(song.title)})
+    const number = parseInt(song.number) || song.number
+    songs = songs.concat({
+        ...song,
+        "url": formatSongName(song.title),
+        "number": number
+    })
+    console.log("uus biisi:")
     console.log(song)
+    console.log(songs)
 }
 
+//TODO: tarkistus oliko laulua?
 export function updateSong(song) {
+    console.log("Muokattu biisi:")
     console.log(song)
     songs = songs
         .filter(s => s.url != song.url)
         .concat(song)
 }
 
-export const emptySong = {
-    "title": "",
-    "url": "",
-    "number": "",
-    "melody": "",
-    "authorinfo": "",
-    "lyrics": ""
+export function deleteSongByUrl(url) {
+    const found = songs.map(s => s.url).includes(url)
+    songs = songs.filter(s => s.url != url)
+    return found
 }

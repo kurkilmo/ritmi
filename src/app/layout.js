@@ -1,5 +1,6 @@
 import localFont from "next/font/local";
 import "./globals.css";
+import Link from 'next/link'
 
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
@@ -16,10 +17,25 @@ export const metadata = {
   title: "Ritmi"
 };
 
+const Links = () => {
+  return (
+    <nav>
+      <Link href="/">
+        Koti
+      </Link>
+      <br/>
+      <Link href="/admin">
+        Admin
+      </Link>
+    </nav>
+  )
+}
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        <Links />
         {children}
       </body>
     </html>

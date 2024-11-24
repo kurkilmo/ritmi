@@ -1,14 +1,15 @@
 'use client'
 import {useState, useEffect} from 'react'
 import Link from "next/link"
-import { formatSongName, getAllSongs } from "../services/mock-songservice.js"
 
 export default function Home() {
   const [songs, setSongs] = useState([])
   const [filter, setFilter] = useState("")
 
   useEffect(() => {
-    setSongs(getAllSongs())
+    fetch('/api/songs')
+    .then((res) => res.json())
+    .then((data) => setSongs(data))
   }, [])
 
   const handleFilterChange = (event) => {
@@ -19,7 +20,6 @@ export default function Home() {
     song => song.title.toLowerCase().includes(filter.toLowerCase().trim())
   )
 
-  // const songs = get_all_songs()
   return (
     <div>
       <h1>Lauluja</h1>

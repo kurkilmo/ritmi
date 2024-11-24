@@ -1,4 +1,4 @@
-import { formatSongName, getAllSongs, getSongsByNames } from "./mock-songservice.js"
+import { formatSongName, getAllSongs, getSongsByNames } from "./songservice.js"
 
 console.log(formatSongName("EIäöåöä såöä, sdfÄÖÅ / j[a}]a, ok"))
 

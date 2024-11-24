@@ -1,8 +1,10 @@
-import { findSongByUrl } from "../../../services/mock-songservice.js"
+import { notFound } from "next/navigation.js"
+import { findSongByUrl } from "@/services/songservice.js"
 
 export default async function Song({ params }) {
     const url = (await params).url
     const song = findSongByUrl(url)
+    if (!song) return notFound()
 
     return (
         <div>

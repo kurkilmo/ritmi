@@ -1,4 +1,4 @@
-import { getAllSongs } from "@/services/mock-songservice"
+import { getAllSongs } from "@/services/songservice"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 

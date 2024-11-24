@@ -1,19 +1,31 @@
 'use client'
-import { findSongByUrl, emptySong, updateSong, addSong } from "@/services/mock-songservice";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-const SongForm = ({ songUrl }) => {
-    const editing = !!songUrl   // :D
-    const saveSong = editing ? updateSong : addSong
-    
-    const [song, setSong] = useState(emptySong)
-    if (editing) {
-        useEffect(() => {
-            setSong(
-                findSongByUrl(songUrl)
-            )
-        }, [])
+const emptySong = {
+    "title": "",
+    "url": "",
+    "number": "",
+    "melody": "",
+    "authorinfo": "",
+    "lyrics": ""
+}
+
+const SongForm = ({ oldSong }) => {
+    const saveSong = !!oldSong  // true, jos laulu annettu
+    ? async (song) => {
+        fetch(`/api/songs/${song.url}`, {
+            method: "PUT",
+            body: JSON.stringify(song)
+        })
     }
+    : async (song) => {
+        fetch("/api/songs", {
+            method: "POST",
+            body: JSON.stringify(song)
+        })
+    }
+    
+    const [song, setSong] = useState(oldSong || emptySong)
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -22,9 +34,6 @@ const SongForm = ({ songUrl }) => {
 
     const update = (field) => (({ target }) => setSong({...song, [field]:target.value}))
 
-    const title = editing
-        ? `Laulun ${song.title} muokkaus`
-        : "Uusi laulu"
     return (
         <div>
             <form onSubmit={handleSubmit}>
