@@ -1,5 +1,6 @@
 'use client'
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const emptySong = {
     "title": "",
@@ -27,12 +28,15 @@ const SongForm = ({ oldSong }) => {
     
     const [song, setSong] = useState(oldSong || emptySong)
 
+    const router = useRouter()
     const handleSubmit = (event) => {
         event.preventDefault()
         saveSong(song)
+        router.push('/admin')
     }
 
     const update = (field) => (({ target }) => setSong({...song, [field]:target.value}))
+
 
     return (
         <div>
