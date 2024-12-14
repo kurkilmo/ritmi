@@ -24,12 +24,14 @@ const Links = () => {
         Koti
       </Link>
       <br/>
-      <Link href="/admin">
-        Admin
-      </Link>
     </nav>
   )
 }
+
+
+// <Link href="/admin">
+// Admin
+// </Link>
 
 export default function RootLayout({ children }) {
   return (

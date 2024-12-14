@@ -21,7 +21,7 @@ export default function Home() {
   )
 
   return (
-    <div>
+    <div className="main">
       <h1>Lauluja</h1>
       <div className="songFilter">
                 Etsi

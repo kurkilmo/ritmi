@@ -14,17 +14,48 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.main h1 {
+  align-items: center;
+}
+
+.songList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .songList a {
   color: rgb(255, 186, 238);
+  align-items: center;
+  text-decoration: none;
+}
+
+.songList a:hover {
+  text-decoration: underline;
+}
+
+.songList li {
+  list-style-type: none;
+  margin: 0.25em;
+  font-size: large;
+  font-weight: bold;
+}
+
+.songFilter input {
+  margin-left: 1em;
 }
 
 .lyrics {
   white-space: pre-wrap;
-}
-
-.verse {
-  line-height: 1.75em;
-  padding-bottom: 1em;
 }
