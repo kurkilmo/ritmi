@@ -92,10 +92,18 @@ async function deleteSongByUrl(url) {
 
 async function findSongByUrl(url) {
     return await new Promise((resolve, reject) => {
-        db.get(`SELECT ${columns} FROM Songs WHERE url=?`, [url], (err, row) => {
+        db.all(`SELECT ${columns} FROM Songs`, (err, rows) => {
             if (err) { reject(err) }
             else {
-                resolve(row)
+                let song = null
+                try {
+                    song = numerizeSongs(rows.sort(songSort)).filter(s => s.url == url)[0]
+                } catch (err) {
+                    console.log(err)
+                    reject("URL not found")
+                }
+
+                resolve(song)
             }
         })
     })
