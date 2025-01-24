@@ -17,21 +17,20 @@ export default function Home() {
   }
 
   const filteredSongs = songs.filter(
-    song => song.title.toLowerCase().includes(filter.toLowerCase().trim())
+    song => (song.number + ". " + song.title).toLowerCase().includes(filter.toLowerCase().trim())
   )
 
   return (
     <div className="main">
-      <h1>Lauluja</h1>
+      <h1>Ritmi</h1>
       <div className="songFilter">
-                Etsi
-                <input value={filter} onChange={handleFilterChange} />
+                <input value={filter} placeholder="Etsi" onChange={handleFilterChange} />
             </div>
       <ul className="songList">
         {filteredSongs.map((song, ind) =>
           <li key={ind}>
             <Link href={`/songs/${song.url}`} key={ind}>
-              {song.number ? song.number + ". " : ""}{song.title}
+              {song.number}. {song.title}
             </Link>
           </li>
         )}
