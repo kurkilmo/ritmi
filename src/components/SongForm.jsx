@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 const emptySong = {
     "title": "",
     "url": "",
-    "number": "",
     "melody": "",
     "info": "",
     "lyrics": ""
@@ -74,15 +73,6 @@ const SongForm = ({ oldSong }) => {
                         value={song.melody}
                         name='Title'
                         onChange={update("melody")}
-                    />
-                </div>
-                <div>
-                    <p>Numero:</p>
-                    <input
-                        type='text'
-                        value={song.number}
-                        name='Number'
-                        onChange={update("number")}
                     />
                 </div>
                 <div>

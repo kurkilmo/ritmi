@@ -22,7 +22,7 @@ export default async function Song({ params }) {
             <h2>{song.info}</h2>
             <div className="lyrics">
                 {song.lyrics.split("\n\n").map((verse, ind) => (
-                    <p key={ind} className="verse">{verse}</p>
+                    <p key={ind} className="verse" dangerouslySetInnerHTML={{ __html: verse}}></p>
                 ))}
             </div>
         </div>
