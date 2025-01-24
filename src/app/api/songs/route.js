@@ -1,4 +1,4 @@
-import { getAllSongs, addSong } from "@/services/songservice";
+import { getAllSongs, addSong, updateSongNumber } from "@/services/songservice";
 
 export async function GET() {
     return Response.json(await getAllSongs())
@@ -10,4 +10,14 @@ export async function POST(request) {
     console.log(newSong)
     await addSong(newSong)
     return new Response({status: 201})
+}
+
+export async function PUT(request) {
+    const newSongs = await request.json()
+
+    newSongs.forEach(async song => {
+        await updateSongNumber(song)
+    })
+
+    return new Response({ status: 204 })
 }

@@ -19,3 +19,11 @@ export async function PUT(request, { params }) {
     const status = deleted ? 204 : 201
     return new Response({status: status})
 }
+
+export async function DELETE(request, { params }) {
+    const url = (await params).url
+    const deleted = await deleteSongByUrl(url)
+
+    const status = deleted ? 204 : 404
+    return new Response({status: status})
+}

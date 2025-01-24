@@ -9,26 +9,11 @@ const db = new Database(dbPath)
 const sortSongs = (songs) => {
     const numbersAndUndefined = songs.filter(a => typeof a.number !== "string").sort((a,b) => (a.number - b.number))
     const empties = songs.filter(a => typeof a.number === "string" && a.number.trim() === "")
-    const strings = songs.filter(a => typeof a.number === "string" && a.number.trim() !== "").sort().reverse()
+    const strings = songs.filter(a => typeof a.number === "string" && a.number.trim() !== "")
+        .sort((a,b) => a.number < b.number ? -1 : 1).reverse()
 
     const res = numbersAndUndefined.concat(empties).concat(strings)
     return res
-}
-
-const numerizeSongs = (songs) => {
-    let currentNumber = 0
-    for (let i = 0; i < songs.length; i++) {
-        if (songs[i].number && !parseInt(songs[i].number)) break
-        if (songs[i].number) {
-            //console.log("Current:" + songs[i].number)
-            currentNumber = songs[i].number
-            continue
-        } else {
-            songs[i].number = ++currentNumber
-            //console.log("New number:" + songs[i].number)
-        }
-    }
-    return songs
 }
 
 function formatSongName(name) {
@@ -47,20 +32,29 @@ async function getAllSongs() {
     return await new Promise((resolve, reject) => {
         db.all(`SELECT ${columns} FROM Songs`, (err, rows) => {
             if (err) { reject(err) }
-            else resolve(numerizeSongs(sortSongs(rows)))
-            // return row.sort(songSort)
+            else resolve(sortSongs(rows))
         })
     })
 }
 
-function addSong(song) {
-    const number = parseInt(song.number) || song.number
+async function generateNumber() {
+    const existingNumbers = (await getAllSongs()).map(s => s.number)
+    console.log(existingNumbers)
+    let i = existingNumbers.length - 1
+    while (isNaN(existingNumbers[i])) { i-- }
+    const res = parseInt(existingNumbers[i]) + 1
+    console.log(res)
+    return res
+}
+
+async function addSong(song) {
+    const number = parseInt(song.number) || await generateNumber()
     song = {
         melody: "",
         info: "",
         lyrics: "",
         ...song,
-        number: number || "",
+        number: number,
         url:formatSongName(song.title)
     }
     db.run(
@@ -79,20 +73,17 @@ async function deleteSongByUrl(url) {
 
 async function findSongByUrl(url) {
     return await new Promise((resolve, reject) => {
-        db.all(`SELECT ${columns} FROM Songs`, (err, rows) => {
+        db.get(`SELECT ${columns} FROM Songs WHERE url=?`, [url], (err, row) => {
             if (err) { reject(err) }
             else {
-                let song = null
-                try {
-                    song = numerizeSongs(sortSongs(rows)).filter(s => s.url == url)[0]
-                } catch (err) {
-                    reject("URL not found")
-                }
-
-                resolve(song)
+                resolve(row)
             }
         })
     })
 }
 
-export { getAllSongs, addSong, deleteSongByUrl, findSongByUrl }
+async function updateSongNumber(song) {
+    db.run('UPDATE Songs SET number=? WHERE title=?', [song.number, song.title])
+}
+
+export { getAllSongs, addSong, deleteSongByUrl, findSongByUrl, updateSongNumber }

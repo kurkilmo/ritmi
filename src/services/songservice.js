@@ -19,11 +19,13 @@ import {
     getAllSongs,
     addSong,
     deleteSongByUrl,
-    findSongByUrl
+    findSongByUrl,
+    updateSongNumber
 } from "./song-db-service"
 export {
     getAllSongs,
     addSong,
     deleteSongByUrl,
-    findSongByUrl
+    findSongByUrl,
+    updateSongNumber
 }

@@ -59,3 +59,83 @@ body {
 .lyrics {
   white-space: pre-wrap;
 }
+
+button {
+  padding: 0.5em;
+
+  background-color: #dfbbd6;
+
+  font-weight: bold;
+
+  border-radius: 0.5em;
+  border-color: rgb(255, 255, 255);
+  border-width: 0.3em;
+}
+
+button:hover {
+  background-color: #ffffff;
+}
+
+.reorder {
+  width: 100%;
+
+  ul {
+    margin-right: 2em;
+  }
+
+  li {
+    list-style-type: none;
+  }
+
+  .reorderEntry {
+    display: flex;
+    justify-content: space-between;
+  
+
+    font-weight: bold;
+    background-color: black;
+
+    border-style: solid;
+    border-radius: 0.5em;
+    border-width: 2px;
+    border-color: rgb(145, 93, 125);
+
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+
+    p, a {
+      margin: 0.5em;
+      padding: 0.5em;
+      float: left;
+
+      color: var(--foreground);
+      text-decoration: unset;
+    }
+
+    a:hover {
+      color: rgb(255, 176, 251);
+    }
+
+    h1 {
+      align-self: center;
+      font-size: medium;
+      margin-right: 1em;
+    }
+  }
+
+  .reorderEntry:hover {
+    border-color: rgb(224, 126, 187);
+  }
+
+  .reorderFooter {
+    float: right;
+  }
+
+  .reorderHeader {
+    margin-left: 3em;
+  }
+
+  button {
+    margin-right: 5em;
+  }
+}

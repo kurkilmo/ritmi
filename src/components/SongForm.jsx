@@ -37,6 +37,22 @@ const SongForm = ({ oldSong }) => {
 
     const update = (field) => (({ target }) => setSong({...song, [field]:target.value}))
 
+    const DeleteButton = () => {
+        if (!!oldSong /* laulu annettu, voidaan poistaa */) {
+            return (
+                <button
+                    onClick={() => {
+                        const cont = window.confirm(`Poistetaanko ${song.title}?`)
+                        if (!cont) return
+                        fetch(`/api/songs/${song.url}`, {method: "DELETE"})
+                        router.push('/admin')
+                    }}>
+                    Poista
+                </button>
+            )
+        }
+    }
+
 
     return (
         <div>
@@ -90,6 +106,7 @@ const SongForm = ({ oldSong }) => {
                     />
                 </div>
             </form>
+            <DeleteButton />
         </div>
     )
 }
