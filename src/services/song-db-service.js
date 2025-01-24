@@ -6,38 +6,26 @@ const dbPath = path.resolve(process.cwd(), 'src/data/songs.db')
 console.log(dbPath)
 const db = new Database(dbPath)
 
-const songSort = (a, b) => {
-    a = a.number
-    b = b.number
+const sortSongs = (songs) => {
+    const numbersAndUndefined = songs.filter(a => typeof a.number !== "string").sort((a,b) => (a.number - b.number))
+    const empties = songs.filter(a => typeof a.number === "string" && a.number.trim() === "")
+    const strings = songs.filter(a => typeof a.number === "string" && a.number.trim() !== "").sort().reverse()
 
-    if (typeof a === "number" && typeof b === "number") {
-      return a - b;
-    }
-    
-    if (typeof a === "number") return -1;
-    if (typeof b === "number") return 1;
-    
-    if (typeof a === "string" && typeof b === "string") {
-      if (a === "n-1" && b === "n") return -1;
-      if (a === "n" && b === "n-1") return 1;
-      return 0;
-    }
-    
-    return 0;
+    const res = numbersAndUndefined.concat(empties).concat(strings)
+    return res
 }
 
 const numerizeSongs = (songs) => {
     let currentNumber = 0
-    console.log("len:" + songs.length) 
     for (let i = 0; i < songs.length; i++) {
         if (songs[i].number && !parseInt(songs[i].number)) break
         if (songs[i].number) {
-            console.log("Current:" + songs[i].number)
+            //console.log("Current:" + songs[i].number)
             currentNumber = songs[i].number
             continue
         } else {
             songs[i].number = ++currentNumber
-            console.log("New number:" + songs[i].number)
+            //console.log("New number:" + songs[i].number)
         }
     }
     return songs
@@ -56,11 +44,10 @@ function formatSongName(name) {
 const columns = "title, url, number, melody, info, lyrics"
 
 async function getAllSongs() {
-    console.log("gettiing songs")
     return await new Promise((resolve, reject) => {
         db.all(`SELECT ${columns} FROM Songs`, (err, rows) => {
             if (err) { reject(err) }
-            else resolve(numerizeSongs(rows.sort(songSort)))
+            else resolve(numerizeSongs(sortSongs(rows)))
             // return row.sort(songSort)
         })
     })
@@ -97,9 +84,8 @@ async function findSongByUrl(url) {
             else {
                 let song = null
                 try {
-                    song = numerizeSongs(rows.sort(songSort)).filter(s => s.url == url)[0]
+                    song = numerizeSongs(sortSongs(rows)).filter(s => s.url == url)[0]
                 } catch (err) {
-                    console.log(err)
                     reject("URL not found")
                 }
 
