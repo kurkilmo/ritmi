@@ -29,7 +29,7 @@ export default function Home() {
       <ul className="songList">
         {filteredSongs.map((song, ind) =>
           <li key={ind}>
-            <Link href={`/songs/${song.url}`} key={ind}>
+            <Link href={`/songs/${song.url}`} key={ind} prefetch={false}>
               {song.number}. {song.title}
             </Link>
           </li>
