@@ -26,6 +26,23 @@ const songSort = (a, b) => {
     return 0;
 }
 
+const numerizeSongs = (songs) => {
+    let currentNumber = 0
+    console.log("len:" + songs.length) 
+    for (let i = 0; i < songs.length; i++) {
+        if (songs[i].number && !parseInt(songs[i].number)) break
+        if (songs[i].number) {
+            console.log("Current:" + songs[i].number)
+            currentNumber = songs[i].number
+            continue
+        } else {
+            songs[i].number = ++currentNumber
+            console.log("New number:" + songs[i].number)
+        }
+    }
+    return songs
+}
+
 function formatSongName(name) {
     let res = name
     res = res.toLowerCase()
@@ -43,7 +60,7 @@ async function getAllSongs() {
     return await new Promise((resolve, reject) => {
         db.all(`SELECT ${columns} FROM Songs`, (err, rows) => {
             if (err) { reject(err) }
-            else resolve(rows.sort(songSort))
+            else resolve(numerizeSongs(rows.sort(songSort)))
             // return row.sort(songSort)
         })
     })

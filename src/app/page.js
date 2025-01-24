@@ -31,7 +31,7 @@ export default function Home() {
         {filteredSongs.map((song, ind) =>
           <li key={ind}>
             <Link href={`/songs/${song.url}`} key={ind}>
-              {song.title}
+              {song.number ? song.number + ". " : ""}{song.title}
             </Link>
           </li>
         )}
