@@ -19,6 +19,16 @@ body {
   flex-direction: column;
 }
 
+nav a {
+  font-size: large;
+  text-decoration: unset;
+  color:#727272;
+}
+
+nav a:hover {
+  color:#a7a7a7
+}
+
 .main {
   display: flex;
   align-items: center;
@@ -95,11 +105,14 @@ button:hover {
   width: 100%;
 
   ul {
-    margin-right: 2em;
+    padding-right: 3em;
+    padding-left: 3em;
   }
 
   li {
     list-style-type: none;
+    padding-left: 0;
+    margin-left: 0;
   }
 
   .reorderEntry {
