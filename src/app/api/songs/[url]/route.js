@@ -1,4 +1,4 @@
-import { findSongByUrl, deleteSongByUrl, addSong } from "@/services/songservice"
+import { findSongByUrl, deleteSongByUrl, updateSongByNumer } from "@/services/songservice"
 import { notFound } from "next/navigation"
 
 export async function GET(request, { params }) {
@@ -10,14 +10,9 @@ export async function GET(request, { params }) {
 }
 
 export async function PUT(request, { params }) {
-    const oldUrl = (await params).url
-    const deleted = await deleteSongByUrl(oldUrl)
-
     const editedSong = await request.json()
-    await addSong(editedSong)
-
-    const status = deleted ? 204 : 201
-    return new Response({status: status})
+    await updateSongByNumer(editedSong)
+    return new Response({status: 204})
 }
 
 export async function DELETE(request, { params }) {

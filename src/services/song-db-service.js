@@ -86,4 +86,13 @@ async function updateSongNumber(song) {
     db.run('UPDATE Songs SET number=? WHERE title=?', [song.number, song.title])
 }
 
-export { getAllSongs, addSong, deleteSongByUrl, findSongByUrl, updateSongNumber }
+async function updateSongByNumer(song) {
+    // "title, url, number, melody, info, lyrics"
+    const newUrl = formatSongName(song.title)
+    db.run(
+        'UPDATE Songs SET title=?, url=?, melody=?, info=?, lyrics=? WHERE number=?',
+        [song.title, newUrl, song.melody, song.info, song.lyrics, song.number]
+    )
+}
+
+export { getAllSongs, addSong, deleteSongByUrl, findSongByUrl, updateSongNumber, updateSongByNumer }
