@@ -11,17 +11,16 @@ const emptySong = {
 }
 
 const SongForm = ({ oldSong }) => {
-    const saveSong = !!oldSong  // true, jos laulu annettu
-    ? async (song) => {
-        fetch(`/api/songs/${song.url}`, {
-            method: "PUT",
+    const saveSong = async (song) => {
+        fetch(!!oldSong ? `/api/songs/${song.url}` : "/api/songs", {
+            method: !!oldSong ? "PUT" : "POST",
             body: JSON.stringify(song)
-        })
-    }
-    : async (song) => {
-        fetch("/api/songs", {
-            method: "POST",
-            body: JSON.stringify(song)
+        }).then((resp) => {
+            if (resp.status === 401) {
+                window.alert("Not authenticated or\nsession expired")
+            } else if (resp.status === 201 || resp.status === 204) {
+                router.push('/admin')
+            }
         })
     }
     
@@ -31,21 +30,28 @@ const SongForm = ({ oldSong }) => {
     const handleSubmit = (event) => {
         event.preventDefault()
         saveSong(song)
-        router.push('/admin')
     }
 
     const update = (field) => (({ target }) => setSong({...song, [field]:target.value}))
 
     const DeleteButton = () => {
+        const handleDelete = () => {
+            const cont = window.confirm(`Poistetaanko ${song.title}?`)
+            if (!cont) return
+            fetch(`/api/songs/${song.url}`, {method: "DELETE"})
+                .then((resp) => {
+                    if (resp.status === 401) {
+                        window.alert("Not authenticated or\nsession expired")
+                    } else if (resp.status === 204) {
+                        router.push('/admin')
+                    }
+                })
+        }
+
         if (!!oldSong /* laulu annettu, voidaan poistaa */) {
             return (
                 <button
-                    onClick={() => {
-                        const cont = window.confirm(`Poistetaanko ${song.title}?`)
-                        if (!cont) return
-                        fetch(`/api/songs/${song.url}`, {method: "DELETE"})
-                        router.push('/admin')
-                    }}>
+                    onClick={ handleDelete }>
                     Poista
                 </button>
             )

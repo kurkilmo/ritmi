@@ -65,6 +65,10 @@ export default function Admin() {
             body: JSON.stringify(songs.map(song => (
                 { ...song, number:numberSong(song) }
             )))
+        }).then((resp) => {
+            if (resp.status === 401) {
+                window.alert("Not authenticated or\nsession expired")
+            }
         })
     }
 
