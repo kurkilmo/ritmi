@@ -188,3 +188,44 @@ button:hover {
     font-size: medium;
   }
 }
+
+.songForm {
+  width: 90%;
+  font-size: medium;
+
+  textarea {
+    width: 100%;
+    font-family: unset;
+    resize: vertical;
+  }
+
+  label {
+    display: inline-block;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    font-size: large;
+    font-weight: bold;
+  }
+}
+
+.spinner {
+  margin-top: 3em;
+
+  border: 5px solid #757575;
+  border-top: 5px solid #ff8fff;
+  border-radius: 50%;
+
+  width: 40px;
+  height: 40px;
+
+  animation: spin 0.5s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

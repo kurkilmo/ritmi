@@ -10,7 +10,7 @@ export default async function Edit({ params }) {
     }
 
     return (
-        <div>
+        <div className="songForm">
             <h1>Laulun {song.title} muokkaus</h1>
             <SongForm oldSong={song} />
         </div>

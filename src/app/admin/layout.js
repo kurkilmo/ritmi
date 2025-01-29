@@ -1,5 +1,6 @@
 'use client'
 
+import Spinner from "@/components/Spinner"
 import { useState, useEffect } from "react"
 
 const Login = ({ setLogged }) => {
@@ -35,18 +36,27 @@ const Login = ({ setLogged }) => {
 }
 
 export default function AdminLayout({ children }) {
+    const [loaded, setLoaded] = useState(false)
     const [logged, setLogged] = useState(false)
 
     useEffect(() => {
         fetch("/api/login", { method: "GET" })
             .then(resp => {
+                setLoaded(true)
                 if (resp.status === 204) {
                     setLogged(true)
                 }
             })
     }, [])
 
-    return (
+    if (loaded) {
+        return (
             logged ? children : <Login setLogged={ setLogged }/>
-    )
+        )
+    } else {
+        return (
+            <Spinner />
+        )
+    }
+    
 }

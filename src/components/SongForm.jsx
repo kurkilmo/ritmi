@@ -12,6 +12,11 @@ const emptySong = {
 
 const SongForm = ({ oldSong }) => {
     const saveSong = async (song) => {
+        if (song.title.trim().length === 0) {
+            window.alert("Laulun nimi ei voi olla tyhjä!")
+            return
+        }
+
         fetch(!!oldSong ? `/api/songs/${song.url}` : "/api/songs", {
             method: !!oldSong ? "PUT" : "POST",
             body: JSON.stringify(song)
@@ -64,39 +69,42 @@ const SongForm = ({ oldSong }) => {
             <form onSubmit={handleSubmit}>
                 <button type='submit'>Tallenna</button>
                 <div>
-                    <p>Laulun nimi:</p>
+                    <label htmlFor="title">Laulun nimi:</label><br/>
                     <input
                         type='text'
                         value={song.title}
                         name='Title'
+                        id='title'
                         onChange={update("title")}
                     />
                 </div>
                 <div>
-                    <p>Sävel:</p>
+                    <label htmlFor="melody">Sävel:</label><br/>
                     <input
                         type='text'
                         value={song.melody}
-                        name='Title'
+                        name='Melody'
+                        id='melody'
                         onChange={update("melody")}
                     />
                 </div>
                 <div>
-                    <p>Info:</p>
-                    <input
+                    <label htmlFor='info'>Info:</label><br/>
+                    <textarea
                         type='text'
                         value={song.info}
                         name='Info'
+                        id='info'
                         onChange={update("info")}
                     />
                 </div>
                 <div>
-                    <p>Sanat:</p>
+                    <label htmlFor='lyrics'>Sanat:</label><br/>
                     <textarea
                         type='text'
                         value={song.lyrics}
                         name='Lyrics'
-                        cols='80'
+                        id='lyrics'
                         rows='40'
                         onChange={update("lyrics")}
                     />
