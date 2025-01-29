@@ -45,8 +45,6 @@ export default function AdminLayout({ children }) {
     }, [])
 
     return (
-        <div>
-            {logged ? children : <Login setLogged={ setLogged }/>}
-        </div>
+            logged ? children : <Login setLogged={ setLogged }/>
     )
 }

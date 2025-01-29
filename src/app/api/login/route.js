@@ -1,15 +1,13 @@
 import { cookies } from 'next/headers'
+import { isValidToken } from '@/services/login-service'
 require('dotenv').config()
 const jwt = require('jsonwebtoken')
 
-const payload = "perkele"
-
 export async function POST(request) {
     const password = await request.text()
-    console.log(password)
 
     if (password === process.env.PASSWORD) {
-        const token = jwt.sign({ payload: payload },
+        const token = jwt.sign({ payload: process.env.PAYLOAD },
             process.env.SECRET,
             { expiresIn: 3600 }
         )
@@ -25,16 +23,8 @@ export async function POST(request) {
 
 export async function GET(request) {
     const token = (await cookies()).get('token')
-    //console.log(token)
-    console.log(token)
-    if (token) {
-        const decoded = jwt.verify(token.value, process.env.SECRET)
-        const responseStatus = decoded.payload === payload ? 204 : 401
     
-        return new Response(null, { status: responseStatus })
-    }
+    const responseStatus = isValidToken(token) ? 204 : 401
     
-    return new Response(null, { status: 401 })
+    return new Response(null, { status: responseStatus })
 }
-
-// const decodedToken = jwt.verify(req.token, process.env.SECRET)
