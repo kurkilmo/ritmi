@@ -10,22 +10,25 @@ const Login = ({ setLogged }) => {
         
         fetch('/api/login', { method: "POST", body: password })
             .then(resp => {
-                console.log(`pw login status: ${resp.status}`)
                 if (resp.status === 204) {
                     setLogged(true)
                 } else {
-                    window.alert("wrong password")
+                    window.alert("Väärä salasana")
                 }
             })
-        //window.localStorage.setItem("loggedIn", true)
-        //setLogged(true)
     }
 
     return (
-        <div>
+        <div className="login">
+            <p>Kirjaudu sisään:</p>
             <form onSubmit={ doLogIn }>
-                <input type="password" value={password} onChange={({ target }) => setPassword(target.value)}></input>
-                <button type="submit">Login</button>
+                <input
+                    type="password"
+                    value={password}
+                    onChange={({ target }) => setPassword(target.value)}
+                    placeholder="salasana"
+                ></input>
+                <button type="submit">Kirjaudu</button>
             </form>
         </div>
     )
@@ -37,7 +40,6 @@ export default function AdminLayout({ children }) {
     useEffect(() => {
         fetch("/api/login", { method: "GET" })
             .then(resp => {
-                console.log(`token login status: ${resp.status}`)
                 if (resp.status === 204) {
                     setLogged(true)
                 }

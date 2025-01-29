@@ -14,7 +14,7 @@ export async function POST(request) {
 
         return new Response(null, {
             status: 204,
-            headers: { 'Set-Cookie': `token=${token}` } 
+            headers: { 'Set-Cookie': `token=${token}; SameSite=Strict` }
         })
     } else {
         return new Response(null, { status: 401 })
