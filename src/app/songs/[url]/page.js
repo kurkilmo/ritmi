@@ -28,3 +28,18 @@ export default async function Song({ params }) {
         </div>
     )
 }
+
+export async function generateMetadata({ params }) {
+    const url = (await params).url
+    const song = await findSongByUrl(url)
+
+    if (!song) {
+        return {
+            title: "Laulua ei löydy"
+        }
+    } else {
+        return {
+            title: song.title
+        }
+    }
+}
