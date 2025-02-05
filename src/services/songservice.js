@@ -21,7 +21,8 @@ import {
     deleteSongByUrl,
     findSongByUrl,
     updateSongNumber,
-    updateSongByNumer
+    updateSongByNumer,
+    getOffsetSongUrlByNumber
 } from "./song-db-service"
 export {
     getAllSongs,
@@ -29,5 +30,6 @@ export {
     deleteSongByUrl,
     findSongByUrl,
     updateSongNumber,
-    updateSongByNumer
+    updateSongByNumer,
+    getOffsetSongUrlByNumber
 }

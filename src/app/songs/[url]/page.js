@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation.js"
-import { findSongByUrl } from "@/services/songservice.js"
+import Link from "next/link"
+import { findSongByUrl, getOffsetSongUrlByNumber } from "@/services/songservice.js"
 
 export default async function Song({ params }) {
     const url = (await params).url
@@ -15,8 +16,24 @@ export default async function Song({ params }) {
         ? `Sävel: ${song.melody}`
         : ''
 
+    const prevSongUrl = await getOffsetSongUrlByNumber(song.number, -1)
+    const nextSongUrl = await getOffsetSongUrlByNumber(song.number, 1)
+
+    const SongNav = () => {
+        return (
+            <nav>
+                { prevSongUrl ? <Link href={`/songs/${prevSongUrl}`}>{"<<"}</Link> : "" }
+                <Link href="/">
+                    Koti
+                </Link>
+                { nextSongUrl ? <Link href={`/songs/${nextSongUrl}`}>{">>"}</Link> : "" }
+            </nav>
+        )
+    }
+
     return (
         <div className="songPage">
+            <SongNav />
             <h1>{title}</h1>
             <h2>{melody}</h2>
             <h2>{song.info}</h2>

@@ -19,14 +19,20 @@ body {
   flex-direction: column;
 }
 
-nav a {
-  font-size: large;
-  text-decoration: unset;
-  color:#727272;
-}
+nav {
+  text-align: center;
 
-nav a:hover {
-  color:#a7a7a7
+  a {
+    margin: 1em;
+    font-size: large;
+    text-decoration: unset;
+    color:#727272;
+  }
+
+  a:hover {
+    color:#a7a7a7
+
+  }
 }
 
 .main {
@@ -79,8 +85,10 @@ nav a:hover {
   border-style: none;
 }
 
-.songPage h2 {
-  font-size: 1.25em;
+.songPage {
+  h2 {
+    font-size: 1.25em;
+  }
 }
 
 .lyrics {

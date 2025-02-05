@@ -16,6 +16,13 @@ const sortSongs = (songs) => {
     return res
 }
 
+const sortNumbers = (numbers) => {
+    const nums = numbers.filter(a => typeof a !== "string").sort((a,b) => (a - b))
+    const strings = numbers.filter(a => typeof a === "string" && a.trim() !== "")
+        .sort((a,b) => a < b ? -1 : 1).reverse()
+        return nums.concat(strings)
+}
+
 function formatSongName(name) {
     let res = name
     res = res.toLowerCase()
@@ -39,11 +46,9 @@ async function getAllSongs() {
 
 async function generateNumber() {
     const existingNumbers = (await getAllSongs()).map(s => s.number)
-    console.log(existingNumbers)
     let i = existingNumbers.length - 1
     while (isNaN(existingNumbers[i])) { i-- }
     const res = parseInt(existingNumbers[i]) + 1
-    console.log(res)
     return res
 }
 
@@ -95,4 +100,33 @@ async function updateSongByNumer(song) {
     )
 }
 
-export { getAllSongs, addSong, deleteSongByUrl, findSongByUrl, updateSongNumber, updateSongByNumer }
+async function getOffsetSongUrlByNumber(number, offset) {
+    const allNumbers = await new Promise((resolve, reject) => {
+        db.all("SELECT number FROM Songs", (err, rows) => {
+            if (err) { reject(err) }
+            else resolve(sortNumbers(rows.map(row => row.number)))
+        })
+    })
+    
+    const targetNumber = allNumbers[allNumbers.indexOf(number) + offset]
+
+    if (! targetNumber) return undefined
+
+    return await new Promise((resolve, reject) => {
+        db.get("SELECT url FROM Songs WHERE number=?", [targetNumber], (err, row) => {
+            if (err) { reject(err) }
+            else {
+                resolve(row.url)
+            }
+        })
+    })
+}
+
+export { getAllSongs,
+    addSong,
+    deleteSongByUrl,
+    findSongByUrl,
+    updateSongNumber,
+    updateSongByNumer,
+    getOffsetSongUrlByNumber
+}

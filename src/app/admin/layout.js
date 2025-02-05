@@ -2,6 +2,7 @@
 
 import Spinner from "@/components/Spinner"
 import { useState, useEffect } from "react"
+import Link from 'next/link'
 
 const Login = ({ setLogged }) => {
     const [password, setPassword] = useState("")
@@ -49,14 +50,17 @@ export default function AdminLayout({ children }) {
             })
     }, [])
 
-    if (loaded) {
-        return (
-            logged ? children : <Login setLogged={ setLogged }/>
-        )
-    } else {
-        return (
-            <Spinner />
-        )
-    }
-    
+    return (
+        <div className="reorder">
+            <nav>
+                <Link href="/">
+                    Koti
+                </Link>
+                <br/>
+            </nav>
+            {loaded 
+                ? logged ? children : <Login setLogged={ setLogged }/>
+                : <Spinner />}
+        </div>
+    )
 }
