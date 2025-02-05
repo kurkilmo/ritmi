@@ -79,6 +79,9 @@ nav a:hover {
   border-style: none;
 }
 
+.songPage h2 {
+  font-size: 1.25em;
+}
 
 .lyrics {
   white-space: pre-wrap;

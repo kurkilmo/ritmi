@@ -16,7 +16,7 @@ export default async function Song({ params }) {
         : ''
 
     return (
-        <div>
+        <div className="songPage">
             <h1>{title}</h1>
             <h2>{melody}</h2>
             <h2>{song.info}</h2>
