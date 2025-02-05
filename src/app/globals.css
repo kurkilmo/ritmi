@@ -112,6 +112,13 @@ button:hover {
   background-color: #ffffff;
 }
 
+.admin {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
 .reorder {
   width: 100%;
 

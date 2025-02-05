@@ -89,7 +89,7 @@ export default function Admin() {
     }
 
     return(
-        <div>
+        <div className="reorder">
             <div className="reorderHeader">
                 <button onClick={() => router.push('/admin/new')}>Uusi</button>
                 <SaveNumberingButton />

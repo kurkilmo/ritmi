@@ -51,7 +51,7 @@ export default function AdminLayout({ children }) {
     }, [])
 
     return (
-        <div className="reorder">
+        <div className="admin">
             <nav>
                 <Link href="/">
                     Koti
