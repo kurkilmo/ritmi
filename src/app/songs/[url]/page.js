@@ -22,11 +22,11 @@ export default async function Song({ params }) {
     const SongNav = () => {
         return (
             <nav>
-                { prevSongUrl ? <Link href={`/songs/${prevSongUrl}`}>{"<<"}</Link> : "" }
+                { prevSongUrl ? <Link href={`/songs/${prevSongUrl}`} prefetch={false}>{"<<"}</Link> : "" }
                 <Link href="/">
                     Koti
                 </Link>
-                { nextSongUrl ? <Link href={`/songs/${nextSongUrl}`}>{">>"}</Link> : "" }
+                { nextSongUrl ? <Link href={`/songs/${nextSongUrl}`} prefetch={false}>{">>"}</Link> : "" }
             </nav>
         )
     }
