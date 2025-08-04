@@ -2,6 +2,19 @@
 import {useState, useEffect} from 'react'
 import Link from "next/link"
 
+
+const saveScrollPosition = () => {
+  sessionStorage.setItem('scrollPosition', window.scrollY)
+} 
+
+const restoreScrollPosition = () => {
+  const savedPosition = parseInt(sessionStorage.getItem('scrollPosition'))
+  if (savedPosition) {
+    window.scrollTo(0, savedPosition)
+    sessionStorage.removeItem("scrollPosition")
+  }
+}
+
 export default function Home() {
   const [songs, setSongs] = useState([])
   const [filter, setFilter] = useState("")
@@ -11,6 +24,10 @@ export default function Home() {
     .then((res) => res.json())
     .then((data) => setSongs(data))
   }, [])
+
+  useEffect(() => {
+    if (songs.length !== 0) restoreScrollPosition()
+  })
 
   const handleFilterChange = (event) => {
     setFilter(event.target.value)
@@ -29,7 +46,7 @@ export default function Home() {
       <ul className="songList">
         {filteredSongs.map((song, ind) =>
           <li key={ind}>
-            <Link href={`/songs/${song.url}`} key={ind} prefetch={false}>
+            <Link href={`/songs/${song.url}`} key={ind} prefetch={false} onNavigate={saveScrollPosition}>
               {song.number}. {song.title}
             </Link>
           </li>
