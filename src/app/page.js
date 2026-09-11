@@ -2,10 +2,9 @@
 import {useState, useEffect} from 'react'
 import Link from "next/link"
 
-
 const saveScrollPosition = () => {
   sessionStorage.setItem('scrollPosition', window.scrollY)
-} 
+}
 
 const restoreScrollPosition = () => {
   const savedPosition = parseInt(sessionStorage.getItem('scrollPosition'))
