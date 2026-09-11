@@ -14,7 +14,7 @@ export default async function Rules() {
     return (
         <div className="rulePage">
             <Nav />
-            <h1>Sitsien Säännöt</h1>
+            <h1>Sitsien säännöt</h1>
 			<ol>
 			<li>
 				Sitseille tulee pukeutua teeman mukaisella tavalla. Sitseillä on yleensä jokin teema, jota osallistujien tulee noudattaa pukeutumisessaan parhaansa mukaan.
