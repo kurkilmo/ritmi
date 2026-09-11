@@ -40,9 +40,10 @@ export default function Home() {
   return (
     <div className="main">
       <h1>Ritmi</h1>
+        <Link href="/rules" className='ruleLink'>Sitsien säännöt</Link>
       <div className="songFilter">
                 <input value={filter} placeholder="Etsi" onChange={handleFilterChange} />
-            </div>
+      </div>
       <ul className="songList">
         {filteredSongs.map((song, ind) =>
           <li key={ind}>

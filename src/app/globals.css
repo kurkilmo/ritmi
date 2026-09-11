@@ -92,6 +92,27 @@ nav {
   }
 }
 
+.rulePage {
+	li {
+		width: 80vw;
+		margin-bottom: 1.5em;
+	}
+
+	h1 {
+		text-align: center;
+	}
+}
+
+.ruleLink {
+	margin-top: -1em;
+	margin-bottom: 1em;
+    color: #929292;
+}
+
+.ruleLink:hover {
+    color:#a7a7a7;
+}
+
 .lyrics {
   white-space: pre-wrap;
   font-size: large;
