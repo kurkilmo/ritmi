@@ -4,7 +4,6 @@ import { findSongByUrl, deleteSongByUrl, updateSongByNumer } from "@/services/so
 import { notFound } from "next/navigation"
 
 export async function GET(request, { params }) {
-    console.log(params)
     const url = (await params).url
     const song = await findSongByUrl(url)
     if (!song) notFound()

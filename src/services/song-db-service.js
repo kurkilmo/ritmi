@@ -1,10 +1,10 @@
 import path from 'path'
-import pkg from 'sqlite3'
-const { Database } = pkg
+import Database from 'better-sqlite3'
 
 const dbPath = path.resolve(process.cwd(), 'src/data/songs.db')
 console.log(dbPath)
 const db = new Database(dbPath)
+db.pragma('journal_mode = WAL')
 
 const sortSongs = (songs) => {
     const numbersAndUndefined = songs.filter(a => typeof a.number !== "string").sort((a,b) => (a.number - b.number))
@@ -36,12 +36,8 @@ function formatSongName(name) {
 const columns = "title, url, number, melody, info, lyrics"
 
 async function getAllSongs() {
-    return await new Promise((resolve, reject) => {
-        db.all(`SELECT ${columns} FROM Songs`, (err, rows) => {
-            if (err) { reject(err) }
-            else resolve(sortSongs(rows))
-        })
-    })
+	const rows = db.prepare(`SELECT ${columns} FROM Songs`).all()
+	return sortSongs(rows)
 }
 
 async function generateNumber() {
@@ -62,64 +58,45 @@ async function addSong(song) {
         number: number,
         url:formatSongName(song.title)
     }
-    db.run(
-        `INSERT INTO Songs (${columns}) VALUES (?, ?, ?, ?, ?, ?)`,
-        [song.title, song.url, song.number, song.melody, song.info, song.lyrics]
-    )
+	db.prepare(`INSERT INTO Songs (${columns}) VALUES (?, ?, ?, ?, ?, ?)`).run(song.title, song.url, song.number, song.melody, song.info, song.lyrics)
 }
 
 async function deleteSongByUrl(url) {
     const exists = !!(await findSongByUrl(url))
     if (exists) {
-        db.run('DELETE FROM Songs WHERE url=?', [url])
+        db.prepare('DELETE FROM Songs WHERE url=?').run(url)
     }
     return exists
 }
 
 async function findSongByUrl(url) {
-    return await new Promise((resolve, reject) => {
-        db.get(`SELECT ${columns} FROM Songs WHERE url=?`, [url], (err, row) => {
-            if (err) { reject(err) }
-            else {
-                resolve(row)
-            }
-        })
-    })
+	const row = db.prepare(`SELECT ${columns} FROM Songs WHERE url=?`).get(url)
+	return row
 }
 
 async function updateSongNumber(song) {
-    db.run('UPDATE Songs SET number=? WHERE title=?', [song.number, song.title])
+    db.prepare('UPDATE Songs SET number=? WHERE title=?').run(song.number, song.title)
 }
 
 async function updateSongByNumer(song) {
     // "title, url, number, melody, info, lyrics"
     const newUrl = formatSongName(song.title)
-    db.run(
-        'UPDATE Songs SET title=?, url=?, melody=?, info=?, lyrics=? WHERE number=?',
-        [song.title, newUrl, song.melody, song.info, song.lyrics, song.number]
+    db.prepare(
+        'UPDATE Songs SET title=?, url=?, melody=?, info=?, lyrics=? WHERE number=?').run(
+        song.title, newUrl, song.melody, song.info, song.lyrics, song.number
     )
 }
 
 async function getOffsetSongUrlByNumber(number, offset) {
-    const allNumbers = await new Promise((resolve, reject) => {
-        db.all("SELECT number FROM Songs", (err, rows) => {
-            if (err) { reject(err) }
-            else resolve(sortNumbers(rows.map(row => row.number)))
-        })
-    })
-    
+	let allNumbers = db.prepare("SELECT number FROM Songs").all().map(row => row.number)
+	allNumbers = sortNumbers(allNumbers)
+
     const targetNumber = allNumbers[allNumbers.indexOf(number) + offset]
 
     if (! targetNumber) return undefined
 
-    return await new Promise((resolve, reject) => {
-        db.get("SELECT url FROM Songs WHERE number=?", [targetNumber], (err, row) => {
-            if (err) { reject(err) }
-            else {
-                resolve(row.url)
-            }
-        })
-    })
+	const res =  db.prepare("SELECT url FROM Songs WHERE number=?").get(targetNumber)["url"]
+	return res
 }
 
 export { getAllSongs,
